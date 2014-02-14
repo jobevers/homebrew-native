@@ -9,30 +9,35 @@ class CairoNative < Formula
   url 'http://cairographics.org/releases/cairo-1.12.16.tar.xz'
   sha1 '4f6e337d5d3edd7ea79d1426f575331552b003ec'
 
-  # depends_on 'cmake' => :build
-  # depends_on :x11 # if your formula requires any X11/XQuartz components
-  depends_on 'pkg-config'
+  depends_on 'pkg-config' => :build
+  depends_on 'xz'=> :build
+  depends_on :freetype
+  depends_on :fontconfig
   depends_on :libpng
   depends_on 'pixman'
   depends_on 'glib'
-  depends_on 'freetype'    
-  depends_on 'fontconfig'
-
-  #keg_only "for inkscape"
 
   conflicts_with "cairo", :because=>"installs the same binaries"
 
   def install
     # ENV.j1  # if your formula's build system can't parallelize
+    args = %W[
+      --disable-dependency-tracking
+      --prefix=#{prefix}
+      --enable-gobject=yes
+      --enable-quartz=yes
+      --enable-quartz-image
+      --enable-xlib=no
+      --enable-xlib-xrender=no
+    	--without-x
+    	--enable-xcb-shm=no
+    	--enable-ft=yes
+    	--enable-fc=yes
+    ]
+    
+    args << '--enable-xcb=no' if MacOS.version <= :leopard
 
-    system "./configure", "--disable-debug", "--disable-dependency-tracking",
-    					  "--enable-quartz=yes", "--enable-quartz-image",
-    					  "--enable-xlib=no", "--enable-xlib-xrender=no",
-    					  "--without-x", "--enable-xcb-shm=no", "--enable-xcb=no",
-    					  "--enable-gobject=yes", "--enable-ft=yes",
-                          "--enable-fc=yes",
-                          "--prefix=#{prefix}"
-    # system "cmake", ".", *std_cmake_args
+    system "./configure", *args
     system "make", "install" # if this fails, try separate make/make install steps
   end
 
