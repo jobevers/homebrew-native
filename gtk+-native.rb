@@ -6,8 +6,8 @@ require 'formula'
 
 class GtkxNative < Formula
   homepage 'http://www.gtk.org/'
-  url 'http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.20.tar.xz'
-  sha1 '89315bf05dd3d626a50bae5417942ee4428012c9'
+  url 'http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.22.tar.xz'
+  sha256 'b114b6e9fb389bf3aa8a6d09576538f58dce740779653084046852fb4140ae7f'
 
   # depends_on 'cmake' => :build
   #depends_on :x11 # if your formula requires any X11/XQuartz components
@@ -37,7 +37,7 @@ class GtkxNative < Formula
   def install
     # ENV.j1  # if your formula's build system can't parallelize
 
-    system "./configure", "--disable-debug", "--disable-dependency-tracking",
+    system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}", "--without-x",
                           "--with-gdktarget=quartz", "--disable-xkb",
                           "--disable-xinerama", "--without-xinput",
