@@ -8,7 +8,7 @@ class QivNative < Formula
   head 'http://bitbucket.org/ciberandy/qiv/', :using => :hg
 
   depends_on 'pkg-config' => :build
-  depends_on 'gtk+3-native'
+  depends_on 'gtk+-native'
   depends_on 'imlib2'
   depends_on 'libmagic'
 
