@@ -23,25 +23,25 @@ class PangoNative < Formula
   depends_on 'pixman'
   depends_on 'icu4c'
   depends_on 'xz'
-
-  #keg_only "for inkscape"
+  depends_on 'gobject-introspection'
   
   conflicts_with "pango", :because=>"installs the same binaries"
   
   def install
-    # ENV.j1  # if your formula's build system can't parallelize
-
-    system "./configure", "--prefix=#{prefix}", "--disable-xft"
-    # system "cmake", ".", *std_cmake_args
+    args = %W[
+      --disable-dependency-tracking
+      --disable-silent-rules
+      --prefix=#{prefix}
+      --enable-man
+      --with-html-dir=#{share}/doc
+      --enable-introspection=yes
+      --disable-xft
+    ]
+    system "./configure", *args
     system "make", "install" # if this fails, try separate make/make install steps
   end
 
   test do
-    # `test do` will create, run in and delete a temporary directory.
-    #
-    # This test will fail and we won't accept that! It's enough to just replace
-    # "false" with the main program this formula installs, but it'd be nice if you
-    # were more thorough. Run the test with `brew test pango-native`.
-    system "false"
+    system "#{bin}/pango-querymodules", "--version"
   end
 end
