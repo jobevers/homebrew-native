@@ -38,10 +38,15 @@ class GtkxNative < Formula
     # ENV.j1  # if your formula's build system can't parallelize
 
     system "./configure", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}", "--without-x",
-                          "--with-gdktarget=quartz", "--disable-xkb",
-                          "--disable-xinerama", "--without-xinput",
-                          "--disable-glibtest", "--disable-introspection"
+                          "--prefix=#{prefix}",
+                          "--disable-glibtest", 
+                          "--disable-introspection",
+                          "--disable-visibility"
+                          "--without-x",
+                          "--with-gdktarget=quartz", 
+                          "--disable-xkb",
+                          "--disable-xinerama",
+                          "--without-xinput",
     # system "cmake", ".", *std_cmake_args
     system "make", "install" # if this fails, try separate make/make install steps
   end
